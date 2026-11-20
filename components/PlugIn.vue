@@ -24,6 +24,8 @@ const near = (a, b) => Math.abs(a - b) < 1e-9 * Math.max(1, Math.abs(a), Math.ab
 function fmt(x) {
   if (!Number.isFinite(x)) return '—'
   if (near(x, Math.round(x))) return Math.round(x).toLocaleString('en-US').replace('-', '−')
+  const r4 = Math.round(x * 10000) / 10000
+  if (near(x, r4)) return r4.toLocaleString('en-US', { maximumFractionDigits: 4 }).replace('-', '−')
   for (const d of [2, 3, 4, 5, 6, 8, 9, 10, 12, 16, 20, 25, 100]) { const n = x * d; if (near(n, Math.round(n)) && Math.abs(Math.round(n)) < 100000) return (Math.round(n) < 0 ? '−' : '') + Math.abs(Math.round(n)) + '/' + d }
   return (Math.round(x * 10000) / 10000).toString().replace('-', '−')
 }
