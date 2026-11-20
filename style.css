@@ -182,3 +182,9 @@ ul.choices li.out{text-decoration:none;opacity:0.45;}
 .rcright .poll .pq{font-size:30px;margin:0 0 16px;}
 .rcright ul.opts{display:flex;gap:12px;font-size:26px;}
 .rcright ul.opts li{flex:1;text-align:center;border:2px solid #39445A;border-radius:12px;padding:8px 0;}
+.tri .row .cell p{font-size:30px !important;font-family:Inter,sans-serif !important;}
+.tri .row{min-height:0;}
+.call{white-space:nowrap;font-family:'Space Grotesk',sans-serif !important;font-weight:700;display:inline-block;padding:4px 16px;border-radius:999px;margin:0;}
+.call.ans{background:#2F6FB0;color:#fff;}
+.call.gue{background:#8C93A3;color:#fff;}
+.call.flg{background:#E8743B;color:#1B2433;}

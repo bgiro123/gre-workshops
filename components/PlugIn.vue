@@ -4,6 +4,7 @@
 //            target:"js expr", targetLabel, choices:[{l,tex,f}], qa:{tex,f}, qb:{tex,f}}
 import { reactive, computed } from 'vue'
 import katex from 'katex'
+import 'katex/dist/katex.min.css'
 const props = defineProps({ cfg: String })
 const C = JSON.parse(props.cfg)
 const vals = reactive(Object.fromEntries(C.vars.map(v => [v.name, String(v.def)])))
