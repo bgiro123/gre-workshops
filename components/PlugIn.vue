@@ -21,6 +21,14 @@ function ev(expr) {
 }
 const legal = computed(() => !C.rule || !ok.value || !!ev(C.rule))
 const near = (a, b) => Math.abs(a - b) < 1e-9 * Math.max(1, Math.abs(a), Math.abs(b))
+function fmtRow(r) {
+  const x = r.v
+  if (!Number.isFinite(x)) return '—'
+  if (r.fmt === 'mmss') { const t = Math.round(x * 60); const m = Math.floor(Math.abs(t) / 60), sec = Math.abs(t) % 60; return (t < 0 ? '−' : '') + m + ':' + String(sec).padStart(2, '0') }
+  if (r.fmt === 'sec') return Math.round(x) + ' s'
+  if (r.fmt === 'pct') return (Math.round(x * 10) / 10).toString().replace('-', '−') + '%'
+  return fmt(x) + (r.suffix || '')
+}
 function fmt(x) {
   if (!Number.isFinite(x)) return '—'
   if (near(x, Math.round(x))) return Math.round(x).toLocaleString('en-US').replace('-', '−')
@@ -57,9 +65,9 @@ const rel = computed(() => near(qa.value, qb.value) ? 'Equal' : (qa.value > qb.v
       <p v-if="C.target" class="tgt"><span>{{ C.targetLabel || 'Target' }}</span><b>{{ ok && legal ? fmt(target) : '—' }}</b></p>
     </div>
     <div v-if="C.mode !== 'qc'" class="plug-out">
-      <div v-for="r in rows" :key="r.l" class="pr" :class="{ hit: ok && legal && (r.hit || (C.mode === 'least' && near(r.v, least))) }">
-        <span class="pl">{{ r.l }}</span><span class="pt" v-html="tex(r.tex)"></span><span class="pv">{{ ok && legal ? fmt(r.v) : '—' }}</span>
-        <span class="pm">{{ ok && legal ? ((r.hit || (C.mode === 'least' && near(r.v, least))) ? '✓' : '✗') : '' }}</span>
+      <div v-for="r in rows" :key="r.l" class="pr" :class="{ hit: C.mode !== 'show' && ok && legal && (r.hit || (C.mode === 'least' && near(r.v, least))), show: C.mode === 'show' }">
+        <span class="pl">{{ r.l }}</span><span class="pt" v-html="tex(r.tex)"></span><span class="pv">{{ ok && legal ? fmtRow(r) : '—' }}</span>
+        <span class="pm" v-if="C.mode !== 'show'">{{ ok && legal ? ((r.hit || (C.mode === 'least' && near(r.v, least))) ? '✓' : '✗') : '' }}</span>
       </div>
     </div>
     <div v-else class="plug-out">
@@ -88,5 +96,7 @@ const rel = computed(() => near(qa.value, qb.value) ? 'Equal' : (qa.value > qb.v
 .pr .pv{font:600 38px 'Space Grotesk',sans-serif;text-align:right}
 .pr .pm{font-size:34px;text-align:center}
 .pr.hit{background:#DCE7F3}
+.pr.show{grid-template-columns:60px 1fr 260px}
+.pr.show .pl{color:#4A5263;font-size:24px}
 .pr.hit .pv{color:#2F6FB0}
 </style>
