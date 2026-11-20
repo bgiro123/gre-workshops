@@ -1,0 +1,13 @@
+{
+  "name": "gre-workshops",
+  "private": true,
+  "scripts": {
+    "build": "bash build.sh",
+    "dev": "slidev picking-numbers.md"
+  },
+  "dependencies": {
+    "@slidev/cli": "^53.1.0",
+    "@slidev/theme-default": "^0.25.0",
+    "katex": "^0.19.1"
+  }
+}
